@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity {
 		tvTopTitleCenter.setText(R.string.app_name);
 		
 		main_data_lv = $(R.id.main_data_lv);
+		main_data_lv.setOnItemClickListener(new OnDataListViewItemClickListener());
 		
 		main_data_add = $(R.id.main_data_add);
 		main_data_add.setOnClickListener(this);
@@ -120,5 +121,17 @@ public class MainActivity extends BaseActivity {
 				}
 			}
 		});
+	}
+	
+	private class OnDataListViewItemClickListener implements OnItemClickListener {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			Intent intent = new Intent(MainActivity.this, DataDetailActivity.class);
+			//put data
+			//......
+			startActivity(intent);
+		}
+		
 	}
 }
