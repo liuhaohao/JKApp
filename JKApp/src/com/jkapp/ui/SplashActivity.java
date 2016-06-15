@@ -1,8 +1,9 @@
 package com.jkapp.ui;
 
 import com.jkapp.R;
+import com.jkapp.config.Config;
+import com.jkapp.utils.FileUtils;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,8 +40,8 @@ public class SplashActivity extends BaseActivity{
 			public void run() {
 				
 				try {
-					
-					
+					//创建sd卡应用目录
+					FileUtils.createDirectory(Config.SDCARD_DIR);
 					
 					//暂停2s
 					Thread.sleep(2 * 1000);

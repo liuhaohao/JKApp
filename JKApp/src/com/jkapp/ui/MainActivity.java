@@ -23,6 +23,7 @@ public class MainActivity extends BaseActivity {
 	private ListView main_data_lv;
 	private ImageView main_data_add;
 	private ListView slide_menu_lv;
+	private View slide_menu_personality;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,12 @@ public class MainActivity extends BaseActivity {
 			toggleDrawer(Gravity.START);
 			break;
 		case R.id.main_data_add:
-			Intent intent = new Intent(this, PublishActivity.class);
-			startActivity(intent);
+			Intent i1 = new Intent(this, PublishActivity.class);
+			startActivity(i1);
+			break;
+		case R.id.slide_menu_personality:
+			Intent i2 = new Intent(this, PersonalityActivity.class);
+			startActivity(i2);
 			break;
 		default:
 			break;
@@ -94,7 +99,8 @@ public class MainActivity extends BaseActivity {
 	
 	//初始化侧栏菜单个人信息部分
 	private void initPersinality() {
-		
+		slide_menu_personality = $(R.id.slide_menu_personality);
+		slide_menu_personality.setOnClickListener(this);
 	}
 	
 	//初始化侧栏菜单功能列表部分

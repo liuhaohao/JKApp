@@ -183,8 +183,13 @@ public class FileUtils {
 
 	public static boolean createDirectory(String path) {
 		if(!TextUtils.isEmpty(path)) {
-			File f = new File(path);
-			return f.mkdirs();
+			try {
+				File f = new File(path);
+				return f.mkdirs();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 		} else {
 			return false;
 		}
