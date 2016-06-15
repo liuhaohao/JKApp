@@ -14,3 +14,12 @@
 data表，comment表，user表
 
 注意：使用主外键进行表关联
+
+
+###Git协作说明
+------
+* 每开发者对应一个develop-xxx分支。每次开发时，需要从develop分支将最新的更新pull到本地，
+然后进行开发，开发完将更新push到对应的develop-xxx分支上，最后需要将更新合并到develop
+上（如果有冲突要解决，保证程序能够正常运行起来）
+* 只有阶段性开发任务完成才会把develop的更新合并到master分支上。
+* 每次commit请写相应有意义的log。
