@@ -22,7 +22,7 @@ public class App extends Application {
 		List<Class<?>> classList = new ArrayList<Class<?>>();
 		OrmDatabaseHelper.setDBTClass(classList);
 		//Bmob
-		Bmob.initialize(getApplicationContext(), "c43189d2cd70b8d586b39240f582d143");
+		Bmob.initialize(getApplicationContext(), "e242efe23c9dabdd705a70b9774c2405");
 		
 	}
 }

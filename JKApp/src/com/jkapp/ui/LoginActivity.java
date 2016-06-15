@@ -18,9 +18,12 @@ public class LoginActivity extends BaseActivity{
 		//测试使用，实现登录功能时需要删除该段代码
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
+		finish();
 	}
 	
 	private void initView() {
 		((TextView)findViewById(R.id.tvTopTitleCenter)).setText("登录");
+		
+		setActionBarBack(true);
 	}
 }

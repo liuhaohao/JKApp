@@ -1,6 +1,7 @@
 package com.jkapp.ui;
 
 import com.jkapp.R;
+import com.jkapp.adapter.SlidingMenuAdapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ public class MainActivity extends BaseActivity {
 	private TextView tvTopTitleCenter;
 	private ListView main_data_lv;
 	private ImageView main_data_add;
+	private ListView slide_menu_lv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,20 @@ public class MainActivity extends BaseActivity {
 	
 	//初始化侧栏菜单功能列表部分
 	private void initMenuList() {
-		
+		slide_menu_lv = $(R.id.slide_menu_lv);
+		slide_menu_lv.setAdapter(new SlidingMenuAdapter(getApplicationContext()));
+		slide_menu_lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//首页
+				if(position == 0) {
+					toggleDrawer(Gravity.START);
+				} else if(position == 1) {
+					Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+					startActivity(intent);
+				}
+			}
+		});
 	}
 }

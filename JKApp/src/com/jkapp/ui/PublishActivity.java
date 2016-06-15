@@ -17,5 +17,6 @@ public class PublishActivity extends BaseActivity{
 	
 	private void initView() {
 		((TextView)findViewById(R.id.tvTopTitleCenter)).setText("发布");
+		setActionBarBack(true);
 	}
 }
