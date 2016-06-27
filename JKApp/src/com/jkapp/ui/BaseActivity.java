@@ -3,11 +3,13 @@ package com.jkapp.ui;
 import com.jkapp.R;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import e.project;
 
 public abstract class BaseActivity extends Activity implements OnClickListener{
 

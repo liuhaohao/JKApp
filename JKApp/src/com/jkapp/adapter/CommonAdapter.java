@@ -11,6 +11,10 @@ public class CommonAdapter<T> extends BaseAdapter{
 	private List<T> mList;
 	private OnCommonAdapterListener mListener;
 	
+	public CommonAdapter(List<T> list) {
+		mList = list;
+	}
+	
 	@Override
 	public int getCount() {
 		return mList != null ? mList.size() : 0;
