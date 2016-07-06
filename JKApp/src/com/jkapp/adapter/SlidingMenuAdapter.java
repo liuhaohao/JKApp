@@ -84,9 +84,9 @@ public class SlidingMenuAdapter extends BaseAdapter {
 		int resId = R.drawable.ic_launcher;
 		String text = s;
 		if(index_page.equals(s)) {
-			resId = R.drawable.ic_launcher;
+			resId = R.drawable.home;
 		} else if(settings.equals(s)) {
-			resId = R.drawable.ic_launcher;
+			resId = R.drawable.menu_setting;
 		}
 		holder.sliding_menu_lv_item_icon.setImageResource(resId);
 		holder.sliding_menu_lv_item_text.setText(text);

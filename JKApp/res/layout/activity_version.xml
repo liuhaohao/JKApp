@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   	android:background="@color/white">
+   	android:background="@color/actionBarColor">
 
     <LinearLayout 
          android:layout_width="wrap_content"
@@ -12,7 +12,7 @@
         <ImageView 
 	        android:layout_width="100dip"
 	        android:layout_height="100dip"
-	        android:src="@drawable/ic_launcher"
+	        android:src="@drawable/app_icon"
 	        android:layout_gravity="center_horizontal"/>
         <TextView 
             android:id="@+id/tvVersion"
@@ -26,9 +26,9 @@
     
     <ImageView 
             android:id="@+id/ivUpdate"
-	        android:layout_width="50dip"
-	        android:layout_height="50dip"
-	        android:src="@drawable/ic_launcher"
+	        android:layout_width="30dip"
+	        android:layout_height="30dip"
+	        android:src="@drawable/update_icon"
 	        android:clickable="true"
 	        android:layout_centerHorizontal="true"
 	        android:layout_alignParentBottom="true"
