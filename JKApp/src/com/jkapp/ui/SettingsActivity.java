@@ -1,5 +1,6 @@
 package com.jkapp.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +8,15 @@ import com.jkapp.AppManager;
 import com.jkapp.R;
 import com.jkapp.adapter.CommonAdapter;
 import com.jkapp.adapter.CommonAdapter.OnCommonAdapterListener;
+import com.jkapp.config.Config;
+import com.jkapp.utils.FileUtils;
+import com.jkapp.utils.UnitsUtils;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +40,8 @@ public class SettingsActivity extends BaseActivity{
 		setContentView(R.layout.activity_settings);
 		
 		initView();
+		
+		calculateCacheSize();
 	}
 	
 	private void initView() {
@@ -45,10 +52,12 @@ public class SettingsActivity extends BaseActivity{
 		list = new ArrayList<String>();
 		list.add("当前版本");
 		list.add("清空缓存");
+		list.add("意见反馈");
 		list.add("关于我们");
 		value = new ArrayList<String>();
 		value.add(AppManager.getVersion(this));
-		value.add("0.0MB");
+		value.add("0.0B");
+		value.add("");
 		value.add("");
 		mAdapter = new CommonAdapter<String>(list);
 		mAdapter.setmListener(new OnCommonAdapterListener() {
@@ -93,8 +102,13 @@ public class SettingsActivity extends BaseActivity{
 				} else if(position == 1) {
 					//清空缓存
 					showClearCacheDialog();
-					
+				
 				} else if(position == 2) {
+					//意见反馈
+					Intent intent = new Intent(SettingsActivity.this, FeedbackActivity.class);
+					startActivity(intent);
+					
+				} else if(position == 3) {
 					//关于我们
 					Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
 					startActivity(intent);
@@ -113,12 +127,48 @@ public class SettingsActivity extends BaseActivity{
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				
 				//清空缓存
-				Toast.makeText(getBaseContext(), "清空缓存成功", Toast.LENGTH_SHORT).show();
-				value.set(1, "0.0MB");
-				mAdapter.notifyDataSetChanged();
+				try {
+					boolean b = FileUtils.deleteFolder(new File(Config.SDCARD_DIR));
+					FileUtils.createDirectory(Config.SDCARD_DIR);
+					Toast.makeText(getBaseContext(), "清空缓存成功", Toast.LENGTH_SHORT).show();
+					value.set(1, "0.00B");
+					mAdapter.notifyDataSetChanged();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		builder.show();
+	}
+	
+	//计算缓存大小
+	private void calculateCacheSize() {
+		new CalculateAsyncTask().execute(new Void[]{});
+		
+	}
+	
+	private class CalculateAsyncTask extends AsyncTask<Void, Void, Void> {
+
+		private long size;
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			size = FileUtils.getSize(Config.SDCARD_DIR);
+			System.out.println("size:" + size);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			try {
+				value.set(1, UnitsUtils.convertByteCount(size));
+				mAdapter.notifyDataSetChanged();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

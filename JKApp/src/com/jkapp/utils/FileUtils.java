@@ -70,26 +70,26 @@ public class FileUtils {
 
 	public static long getSize(String path) {
 		return calculateSize(path);
-	}
+	}    
 	
 	//递归计算目录大小
 	private static long calculateSize(String path) {
-		if(isDirectory(path)) {
-			String[] childs = listFile(path);
-			if(childs != null) {
-				long count = 0;
-				for(String p : childs) {
-					count += calculateSize(p);
-				}
-				return count;
-			} else {
-				return 0;
-			}
-		} else if(isFile(path)) {
-			return getFileSize(path);
-		} else {
-			return 0;
-		}
+		File file = new File(path);
+		//判断文件是否存在     
+        if (file.exists()) {     
+            //如果是目录则递归计算其内容的总大小    
+            if (file.isDirectory()) {     
+                File[] children = file.listFiles();     
+                long size = 0;     
+                for (File f : children)     
+                    size += calculateSize(f.getAbsolutePath());     
+                return size;     
+            } else {//如果是文件则直接返回其大小,以“兆”为单位   
+                return file.length();             
+            }     
+        } else {          
+            return 0;     
+        }     
 	}
 	
 	public static long getFileSize(String path) {
@@ -147,17 +147,17 @@ public class FileUtils {
 		return false;
 	}
 	
-	public static void clear(String path) {
-		if(isDirectory(path)) {
-			String[] childs = listFile(path);
-			if(childs != null) {
-				for(String p : childs) {
-					delete(p);
-				}
-			}
-		} else if(isFile(path)) {
-			clearFile(path);
-		}
+	public static boolean deleteFolder(File f) {
+		if (f.isDirectory()) {
+            String[] children = f.list();
+            for (int i=0; i<children.length; i++) {
+                boolean success = deleteFolder(new File(f, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return f.delete();
 	}
 	
 	public static boolean clearFile(String path) {

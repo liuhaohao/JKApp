@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+	意见反馈Activity布局
+ -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <include layout="@layout/layout_top_title"/>
+    
+    <EditText 
+        android:id="@+id/feedback_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="10"
+        android:background="@drawable/app_edittext_bg"
+        android:gravity="start|top"
+        android:hint="请输入您的意见"/>
+
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 
+	公共的EditText背景，与common_edittext_bg作用一样
+ -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <solid
+        android:color="#ffffff"/>
+    <corners
+        android:radius="1dip"/>
+    <padding
+        android:left="10dip"
+        android:top="5dip"
+        android:right="10dip"
+        android:bottom="5dip"/>
+    <stroke
+        android:width="1dip"
+        android:color="#cccccc"/>
+
+</shape>

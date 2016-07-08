@@ -6,6 +6,7 @@ import java.util.List;
 import com.jkapp.db.OrmDatabaseHelper;
 
 import android.app.Application;
+import android.view.View.MeasureSpec;
 import cn.bmob.v3.Bmob;
 
 public class App extends Application {

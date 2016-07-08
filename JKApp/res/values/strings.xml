@@ -7,4 +7,5 @@
     <string name="index_page">首页</string>
     <string name="settings">设置</string>
     
+    <string name="about_content">该应用是一款编程学习类APP\n\n开发团队：JKDevelops</string>
 </resources>
