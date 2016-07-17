@@ -3,6 +3,7 @@ package com.jkapp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jkapp.bean.Comment;
 import com.jkapp.db.OrmDatabaseHelper;
 
 import android.app.Application;
@@ -20,6 +21,7 @@ public class App extends Application {
 		
 		//DB
 		List<Class<?>> classList = new ArrayList<Class<?>>();
+		classList.add(Comment.class);
 		OrmDatabaseHelper.setDBTClass(classList);
 		//Bmob
 		Bmob.initialize(getApplicationContext(), "c43189d2cd70b8d586b39240f582d143");

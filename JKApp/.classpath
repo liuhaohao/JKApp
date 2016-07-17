@@ -5,5 +5,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/Bmob_Push_V0.9beta_20160520.jar"/>
+	<classpathentry kind="lib" path="libs/BmobSDK_V3.4.7_0527.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
