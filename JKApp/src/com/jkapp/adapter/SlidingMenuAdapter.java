@@ -34,8 +34,11 @@ public class SlidingMenuAdapter extends BaseAdapter {
 	private void init() {
 		mList = new ArrayList<String>();
 		Resources res = mContext.getResources();
+		mList.add(res.getString(R.string.personinfo));
+		mList.add(res.getString(R.string.mypost));
 		mList.add(res.getString(R.string.index_page));
 		mList.add(res.getString(R.string.settings));
+		mList.add(res.getString(R.string.exit));
 	}
 	
 	@Override
@@ -78,17 +81,21 @@ public class SlidingMenuAdapter extends BaseAdapter {
 		clearView(holder);
 		
 		Resources res = mContext.getResources();
+		String personInfo = res.getString(R.string.personinfo);
+		String myPost = res.getString(R.string.mypost);
 		String index_page = res.getString(R.string.index_page);
 		String settings = res.getString(R.string.settings);
-		
+		String exit = res.getString(R.string.exit);
 		int resId = R.drawable.ic_launcher;
+		
 		String text = s;
-		if(index_page.equals(s)) {
-			resId = R.drawable.home;
-		} else if(settings.equals(s)) {
-			resId = R.drawable.menu_setting;
-		}
-		holder.sliding_menu_lv_item_icon.setImageResource(resId);
+		if(index_page.equals(s)) resId = R.drawable.home;
+		if(settings.equals(s)) resId = R.drawable.menu_setting;
+		if(personInfo.equals(s)) resId = R.drawable.personinfo;
+		if(myPost.equals(s)) resId = R.drawable.mypost;
+		if(exit.equals(s)) resId = R.drawable.login_selector;
+		
+	    holder.sliding_menu_lv_item_icon.setImageResource(resId);
 		holder.sliding_menu_lv_item_text.setText(text);
 		
 	}

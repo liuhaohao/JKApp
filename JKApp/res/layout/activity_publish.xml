@@ -3,7 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <include layout="@layout/layout_top_title"/>
+
+    <include layout="@layout/layout_top_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f0f0f0"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/difficult"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/detailofproblem"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f0f0f0"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/way"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/method"
+        android:hint="@string/howtofixout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="8"
+        android:maxLines="20" />
+
+    <Button
+        android:id="@+id/publish"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/login_selector"
+        android:text="发布" />
 
 </LinearLayout>

@@ -5,15 +5,19 @@ import cn.bmob.v3.datatype.BmobDate;
 
 public class userInfo extends BmobUser {
 
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 3336224978454463102L;
 	private String nickName;
 	private BmobDate birthDay;
 	private Integer age;
 	private String headImage;
+	private String occupation;
 	
-	
-	
+	public String getOccupation() {
+		return occupation;
+	}
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
 	public String getHeadImage() {
 		return headImage;
 	}
