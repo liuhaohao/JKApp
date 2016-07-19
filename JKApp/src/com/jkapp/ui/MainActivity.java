@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,9 +36,12 @@ import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 import com.jkapp.R;
+import com.jkapp.adapter.MainDataListViewAdapter;
 import com.jkapp.adapter.SlidingMenuAdapter;
+import com.jkapp.bean.MainData;
 import com.jkapp.models.config;
 import com.jkapp.models.userInfo;
+import com.jkapp.utils.DataSyncManager;
 import com.jkapp.widget.CircleImageView;
 
 public class MainActivity extends Activity implements OnClickListener {
@@ -49,8 +55,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	private CircleImageView slide_menu_headpicture;
 	private TextView slide_menu_username;
 	private userInfo user;
-
+	private Button button;
 	private Bitmap bitmap;
+
+	private List<MainData> mainDatas = new ArrayList<MainData>();
+	private DataSyncManager dataSyncManager = new DataSyncManager();
+	private ArrayList<String> postIds = new ArrayList<String>();
+	private MainDataListViewAdapter mAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_main);
 
 		initView();
+
 	}
 
 	private void initView() {
@@ -82,9 +94,33 @@ public class MainActivity extends Activity implements OnClickListener {
 		slide_menu_headpicture = (CircleImageView) findViewById(R.id.slide_menu_headpicture);
 		slide_menu_username = (TextView) this
 				.findViewById(R.id.slide_menu_username);
+
+		button = (Button) findViewById(R.id.btnTopTitleRight);
+		button.setOnClickListener(this);
+
+		showMainData();
 		setListener();
 		initSlidingMenu();
 
+	}
+
+	public void showMainData() {
+		// TODO Auto-generated method stub
+		mainDatas = dataSyncManager.getMainDatas(MainActivity.this);
+
+		mAdapter = new MainDataListViewAdapter(
+				MainActivity.this, mainDatas);
+		mAdapter.notifyDataSetChanged();
+		mAdapter.notifyDataSetInvalidated();
+
+		main_data_lv.setAdapter(mAdapter);
+	}
+
+	private void getPostIds() {
+		int i = 0;
+		for (; i < mainDatas.size(); i++) {
+			postIds.add(mainDatas.get(i).getObjectId());
+		}
 	}
 
 	private void setListener() {
@@ -103,6 +139,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private void toggleDrawer(int gravity) {
 		if (mDrawer.isDrawerOpen(gravity)) {
 			mDrawer.closeDrawer(gravity);
+			showMainData();
 		} else {
 			mDrawer.openDrawer(gravity);
 		}
@@ -229,6 +266,10 @@ public class MainActivity extends Activity implements OnClickListener {
 					startActivity(it);
 					break;
 				case 1:
+					Intent it1 = new Intent(MainActivity.this,MyPostActivity.class);
+					getPostIds();
+					it1.putStringArrayListExtra("ids", postIds);
+					startActivity(it1);
 					break;
 				case 2:
 					toggleDrawer(Gravity.START);
@@ -254,9 +295,22 @@ public class MainActivity extends Activity implements OnClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			Intent intent = new Intent(MainActivity.this,
-					DataDetailActivity.class);
+					CommmentActivity.class);
 			// put data
 			// ......
+			MainData mData = (MainData) main_data_lv
+					.getItemAtPosition(position);
+
+			String title = mData.getTitle();
+			String method = mData.getMethod();
+			String publisher = mData.getPublisher();
+			String postId = mData.getObjectId();
+
+			intent.putExtra("title", title);
+			intent.putExtra("method", method);
+			intent.putExtra("publisher", publisher);
+			intent.putExtra("postId", postId);
+
 			startActivity(intent);
 		}
 

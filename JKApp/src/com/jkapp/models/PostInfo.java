@@ -12,6 +12,17 @@ public class PostInfo extends BmobObject implements Serializable {
 	private String publisher;
 	private String title;
 	private String method;
+	
+	@Override
+	public String getObjectId() {
+		// TODO Auto-generated method stub
+		return super.getObjectId();
+	}
+	@Override
+	public void setObjectId(String objectId) {
+		// TODO Auto-generated method stub
+		super.setObjectId(objectId);
+	}
 	public String getPublisher() {
 		return publisher;
 	}

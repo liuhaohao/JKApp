@@ -1,12 +1,88 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-	<ListView 
-	    android:id="@+id/lv"
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"/>
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/publisher_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:background="#1e8ae8"
+            android:text="夏雨天"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/question"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#F2F2F2"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:text="问题"
+            android:textSize="16sp" />
+        
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="#F2F2F2" />
+
+        <TextView
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:maxLines="15"
+            android:paddingLeft="5dp"
+            android:text="答案"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="5dp"
+            android:background="#F2F2F2" />
+
+        <ListView
+            android:background="#EBEBEB"
+            android:id="@+id/commentlist"
+            android:layout_width="match_parent"
+            android:layout_height="400dp" >
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="我也说一句。。。" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/commit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_selector"
+            android:text="提交" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        android:id="@+id/questionTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:maxLines="2"
+        android:text="史上严重的毁书事件曾造成哪些名著失传？"
+        android:textColor="#000000"
+        android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/answerDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:maxLines="3"
+        android:clickable="true"
+        android:text="这个答案是一年前写的，当时观者寥寥。"
+        android:textColor="#3b3d40"
+        android:textSize="15sp"/>
+
+     <TextView 
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="评论"
+        android:textColor="#a5a8ac"
+        android:textSize="15sp"/> 
+    
+</LinearLayout>

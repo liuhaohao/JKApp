@@ -84,8 +84,9 @@ public class PublishActivity extends Activity implements OnClickListener {
 			public void onSuccess() {
 				Toast.makeText(getApplicationContext(),"发布成功",
 						Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(PublishActivity.this,MainActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(PublishActivity.this,MainActivity.class);
+//				startActivity(intent);
+				PublishActivity.this.finish();
 			}
 			
 			@Override
