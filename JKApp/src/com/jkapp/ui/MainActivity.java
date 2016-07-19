@@ -1,19 +1,19 @@
 package com.jkapp.ui;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -28,7 +28,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadFileListener;
 
 import com.jkapp.R;
 import com.jkapp.adapter.SlidingMenuAdapter;
@@ -48,6 +50,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private TextView slide_menu_username;
 	private userInfo user;
 
+	private Bitmap bitmap;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,8 +62,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private void initView() {
 		Bmob.initialize(getApplicationContext(), config.applicationId);
-		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 		user = BmobUser.getCurrentUser(getApplicationContext(), userInfo.class);
+		mDrawer = (DrawerLayout) findViewById(R.id.drawer);
 
 		ivTopTitleLeft = (ImageView) findViewById(R.id.ivTopTitleLeft);
 		ivTopTitleLeft.setVisibility(View.VISIBLE);
@@ -104,24 +108,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	private Bitmap getBitmapFromUri(String uri)  {
-		BitmapFactory.Options opts = new BitmapFactory.Options();
-		opts.inPreferredConfig = Bitmap.Config.ARGB_8888;// optional
-		opts.inSampleSize = 10;
-		opts.inJustDecodeBounds = false;
-		Bitmap bitmap = BitmapFactory.decodeFile(uri, opts);
-		
-//		WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
-//		int wmWidth = wm.getDefaultDisplay().getWidth();
-//		int wmHeight = wm.getDefaultDisplay().getHeight();
-		
-//		int scaleX = bitmap.getWidth()/wmWidth;
-//		int scaleY = bitmap.getHeight()/wmHeight;
-//		if(scaleX>scaleY & scaleY>=1) opts.inSampleSize = scaleX;
-//		if(scaleY>scaleX & scaleX>=1) opts.inSampleSize = scaleY;
-		return bitmap;
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -156,22 +142,39 @@ public class MainActivity extends Activity implements OnClickListener {
 			Uri uri = data.getData();
 			this.slide_menu_headpicture.setImageURI(uri);
 
-			userInfo newuser = new userInfo();
-			newuser.setHeadImage(uri.toString());
-			newuser.update(getApplicationContext(), user.getObjectId(),
-					new UpdateListener() {
-						@Override
-						public void onSuccess() {
-							Toast.makeText(getApplicationContext(), "头像更换成功",
-									Toast.LENGTH_SHORT).show();
-						}
+			final BmobFile file = new BmobFile(new File(uri.getPath()));
+			Toast.makeText(getApplicationContext(), uri.getPath(),
+					Toast.LENGTH_SHORT).show();
+			file.uploadblock(getApplicationContext(), new UploadFileListener() {
 
-						@Override
-						public void onFailure(int arg0, String arg1) {
-							Toast.makeText(getApplicationContext(),
-									"头像更换失败" + arg1, Toast.LENGTH_SHORT).show();
-						}
-					});
+				@Override
+				public void onSuccess() {
+					final String url = file.getFileUrl(getApplicationContext());
+					userInfo user = new userInfo();
+					user.setImage(url);
+					user.update(getApplicationContext(),
+							MainActivity.this.user.getObjectId(),
+							new UpdateListener() {
+
+								@Override
+								public void onSuccess() {
+									Toast.makeText(getApplicationContext(),
+											"头像更换成功" + url, Toast.LENGTH_SHORT)
+											.show();
+								}
+
+								@Override
+								public void onFailure(int arg0, String arg1) {
+
+								}
+							});
+				}
+
+				@Override
+				public void onFailure(int arg0, String arg1) {
+
+				}
+			});
 		}
 	}
 
@@ -189,9 +192,26 @@ public class MainActivity extends Activity implements OnClickListener {
 	// 初始化侧栏菜单个人信息部分
 	private void initPersinality() {
 		this.slide_menu_username.setText(user.getNickName());
-//		String uri = this.user.getHeadImage();
-//		this.slide_menu_headpicture.setImageBitmap(getBitmapFromUri(uri));
+		final Handler handler = new Handler();
+		new Thread() {
+			@Override
+			public void run() {
+				bitmap = MainActivity.this.user.getHeadPicture();
+				handler.post(runui);
+			}
+		}.start();
+
 	}
+
+	Runnable runui = new Runnable() {
+
+		@Override
+		public void run() {
+			if (bitmap != null) {
+				slide_menu_headpicture.setImageBitmap(bitmap);
+			}
+		}
+	};
 
 	// 初始化侧栏菜单功能列表部分
 	private void initMenuList() {
@@ -242,3 +262,63 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	}
 }
+
+// private File getFileFromBitmap(Bitmap bm) throws FileNotFoundException{
+// File f = new File(getApplicationContext().getCacheDir(), "img.jpg");
+// try {
+// f.createNewFile();
+// } catch (IOException e) {
+// e.printStackTrace();
+// }
+//
+// Bitmap bitmap = bm;
+// ByteArrayOutputStream bos = new ByteArrayOutputStream();
+// bitmap.compress(CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+// byte[] bitmapdata = bos.toByteArray();
+//
+// //write the bytes in file
+// FileOutputStream fos = new FileOutputStream(f);
+// try {
+// fos.write(bitmapdata);
+// } catch (IOException e) {
+// e.printStackTrace();
+// }
+// try {
+// fos.flush();
+// } catch (IOException e) {
+// e.printStackTrace();
+// }
+// try {
+// fos.close();
+// } catch (IOException e) {
+// e.printStackTrace();
+// }
+// return f;
+// }
+//
+// private Bitmap getSmallBitmap(String path){
+// WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+//
+// int wWid = wm.getDefaultDisplay().getWidth();
+// int wHei = wm.getDefaultDisplay().getHeight();
+//
+// BitmapFactory.Options opts = new BitmapFactory.Options();
+// opts.inJustDecodeBounds = true;
+// BitmapFactory.decodeFile(path, opts);
+// int imgWid = opts.outWidth;
+// int imgHei = opts.outHeight;
+//
+// int scale = 1;
+// int scaleX = imgWid/wWid;
+// int scaleY = imgHei/wHei;
+// if(scaleX > scaleY & scaleY>=1){
+// scale = scaleX;
+// }
+// if(scaleY > scaleX & scaleX>=1){
+// scale = scaleY;
+// }
+// opts.inJustDecodeBounds = false;
+// opts.inSampleSize = scale;
+// Bitmap bitmap = BitmapFactory.decodeFile(path, opts);
+// return bitmap;
+// }

@@ -1,17 +1,29 @@
 package com.jkapp.models;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.datatype.BmobDate;
 
 public class userInfo extends BmobUser {
 
 	private static final long serialVersionUID = 3336224978454463102L;
 	private String nickName;
-	private BmobDate birthDay;
-	private Integer age;
 	private String headImage;
 	private String occupation;
+	private String Image;
 	
+	public String getImage() {
+		return Image;
+	}
+	public void setImage(String image) {
+		Image = image;
+	}
 	public String getOccupation() {
 		return occupation;
 	}
@@ -30,16 +42,26 @@ public class userInfo extends BmobUser {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	public BmobDate getBirthDay() {
-		return birthDay;
-	}
-	public void setBirthDay(BmobDate birthDay) {
-		this.birthDay = birthDay;
-	}
-	public Integer getAge() {
-		return age;
-	}
-	public void setAge(Integer age) {
-		this.age = age;
+	
+	public Bitmap getHeadPicture(){
+		URL url;
+		Bitmap bitmap = null;
+		if("".equals(Image)){
+			return null;
+		}
+		try {
+			url = new URL(Image);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setDoInput(true);
+			conn.connect();
+			InputStream is = conn.getInputStream();
+			bitmap = BitmapFactory.decodeStream(is);
+			is.close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			
+		}
+		return bitmap;
 	}
 }

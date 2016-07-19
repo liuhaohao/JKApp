@@ -1,6 +1,7 @@
 package com.jkapp.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +84,8 @@ public class PublishActivity extends Activity implements OnClickListener {
 			public void onSuccess() {
 				Toast.makeText(getApplicationContext(),"发布成功",
 						Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(PublishActivity.this,MainActivity.class);
+				startActivity(intent);
 			}
 			
 			@Override

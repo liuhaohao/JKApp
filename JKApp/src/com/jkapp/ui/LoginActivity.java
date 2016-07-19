@@ -26,11 +26,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		userInfo user = BmobUser.getCurrentUser(getApplicationContext(), userInfo.class);
-		if(user!=null){
-			Intent it = new Intent(LoginActivity.this,MainActivity.class);
-			this.startActivity(it);
-		}
+//		userInfo user = BmobUser.getCurrentUser(getApplicationContext(), userInfo.class);
+//		if(user!=null){
+//			Intent it = new Intent(LoginActivity.this,MainActivity.class);
+//			this.startActivity(it);
+//		}
 		initView();
 		setListener();
 	}
@@ -73,6 +73,16 @@ public class LoginActivity extends Activity implements OnClickListener {
 		startActivity(intent);
 	}
 
+	private void login2(String account,String password){
+		BmobUser.loginByAccount(getApplicationContext(), account, password, new LogInListener<userInfo>() {
+
+			@Override
+			public void done(userInfo arg0, BmobException arg1) {
+				
+			}
+		});
+	}
+	
 	private void login() {
 
 		String phone = this.userId.getText().toString();
