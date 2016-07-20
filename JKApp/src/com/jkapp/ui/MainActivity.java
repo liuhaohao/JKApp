@@ -96,6 +96,8 @@ public class MainActivity extends Activity implements OnClickListener {
 				.findViewById(R.id.slide_menu_username);
 
 		button = (Button) findViewById(R.id.btnTopTitleRight);
+		button.setVisibility(View.VISIBLE);
+		button.setBackgroundResource(R.drawable.refresh_button);
 		button.setOnClickListener(this);
 
 		showMainData();
@@ -157,6 +159,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.slide_menu_headpicture:
 			changeHeadPicture();
+			break;
+		case R.id.btnTopTitleRight:
+			showMainData();
 			break;
 		default:
 			break;

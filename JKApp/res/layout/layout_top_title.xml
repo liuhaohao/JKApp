@@ -63,8 +63,8 @@
 
     <Button
         android:id="@+id/btnTopTitleRight"
-        android:layout_width="80dip"
-        android:layout_height="wrap_content"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="5dip"
